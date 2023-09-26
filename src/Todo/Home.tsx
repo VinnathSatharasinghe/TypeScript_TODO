@@ -1,22 +1,45 @@
-import React, { useState } from 'react'
+import React, { createContext, useState } from 'react'
 import HomeStyle from './Home.style'
 import TodoString from "./String.json"
 import { Label, Pivot, PivotItem, Stack } from '@fluentui/react'
-import { PivotKeysEnum } from './Types'
+import { PivotKeysEnum, ITask } from './Types'
 import TaskList from './List/TaskList'
 
 import { initializeIcons } from '@fluentui/font-icons-mdl2';
-import { createContext } from 'vm'
 initializeIcons();
 
-const Home = () => {
-    const [selectedKey, setSelectedKey] = useState<string>(PivotKeysEnum.Tasks);
+export const TodoContext = createContext<{ activeTasks: ITask[]}>({ 
+  activeTasks: [],
+});
 
-    createContext()
+const Home = () => {
+   const [selectedKey, setSelectedKey] = useState<string>(PivotKeysEnum.Tasks);
+
+
+   const tasks: ITask[] = [
+    
+    {
+        id : "1",
+        title : "Task 1",
+        isfav: true,
+    },
+    {
+        id : "2",
+        title : "Task 2",
+        isfav: false,
+    },
+    {
+      id : "3",
+      title : "Task 3",
+      isfav: true ,
+    },
+  ]; 
 
   return ( 
     <Stack className={HomeStyle.todoContainer}>
-        <header className={HomeStyle.headerStyle}>
+
+      <TodoContext.Provider value={{ activeTasks : tasks }}>
+      <header className={HomeStyle.headerStyle}>
             <h2>{TodoString.header}</h2>
         </header>
 
@@ -42,6 +65,10 @@ const Home = () => {
         </PivotItem>
       </Pivot>
      </Stack>
+
+      </TodoContext.Provider>
+        
+   
     </Stack>
 
   )

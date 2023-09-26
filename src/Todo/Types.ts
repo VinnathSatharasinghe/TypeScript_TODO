@@ -4,3 +4,9 @@ export enum PivotKeysEnum {
     CompletedTasks = "CompletedTasks",
 }
 
+export interface ITask {
+    id: string;
+    title: string;
+    isfav: boolean;  
+}
+
